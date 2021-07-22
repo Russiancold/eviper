@@ -55,13 +55,6 @@ func (e *EViper) bindEnvs(in interface{}, prev ...string) {
 		switch fv.Kind() {
 		case reflect.Struct:
 			e.bindEnvs(fv.Interface(), append(prev, t.Name)...)
-		case reflect.Map:
-			iter := fv.MapRange()
-			for iter.Next() {
-				if key, ok := iter.Key().Interface().(string); ok {
-					e.bindEnvs(iter.Value().Interface(), append(prev, t.Name, key)...)
-				}
-			}
 		case reflect.Slice:
 			e.Viper.SetTypeByDefaultValue(true)
 			e.Viper.SetDefault(env, []string{})
